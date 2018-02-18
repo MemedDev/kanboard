@@ -13,6 +13,7 @@ use Kanboard\Core\Filter\FormatterInterface;
 class BoardColumnFormatter extends BaseFormatter implements FormatterInterface
 {
     protected $swimlaneId = 0;
+    protected $swimlaneTitle = '';
     protected $columns = array();
     protected $tasks = array();
     protected $tags = array();
@@ -27,6 +28,19 @@ class BoardColumnFormatter extends BaseFormatter implements FormatterInterface
     public function withSwimlaneId($swimlaneId)
     {
         $this->swimlaneId = $swimlaneId;
+        return $this;
+    }
+
+    /**
+     * Set swimlaneTitle
+     *
+     * @access public
+     * @param  integer $swimlaneTitle
+     * @return $this
+     */
+    public function withSwimlaneTitle($swimlaneTitle)
+    {
+        $this->swimlaneTitle = $swimlaneTitle;
         return $this;
     }
 
@@ -78,12 +92,11 @@ class BoardColumnFormatter extends BaseFormatter implements FormatterInterface
     public function format()
     {
         foreach ($this->columns as &$column) {
-            $column['id'] = (int) $column['id'];
             $column['tasks'] = $this->boardTaskFormatter
                 ->withTasks($this->tasks)
                 ->withTags($this->tags)
-                ->withSwimlaneId($this->swimlaneId)
-                ->withColumnId($column['id'])
+                ->withSwimlaneTitle($this->swimlaneTitle)
+                ->withColumnTitle($column['title'])
                 ->format();
 
             $column['nb_tasks'] = count($column['tasks']);

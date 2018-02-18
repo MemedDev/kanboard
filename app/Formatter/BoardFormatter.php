@@ -53,7 +53,6 @@ class BoardFormatter extends BaseFormatter implements FormatterInterface
         $this->hook->reference('formatter:board:query', $this->query);
 
         $tasks = $this->query
-            ->eq(TaskModel::TABLE.'.project_id', $this->projectId)
             ->asc(TaskModel::TABLE.'.position')
             ->findAll();
 

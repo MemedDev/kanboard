@@ -16,6 +16,8 @@ class BoardTaskFormatter extends BaseFormatter implements FormatterInterface
     protected $tags = array();
     protected $columnId = 0;
     protected $swimlaneId = 0;
+    protected $columnTitle = null;
+    protected $swimlaneTitle = null;
 
     /**
      * Set tags
@@ -57,6 +59,19 @@ class BoardTaskFormatter extends BaseFormatter implements FormatterInterface
     }
 
     /**
+     * Set columnTitle
+     *
+     * @access public
+     * @param  string $columnTitle
+     * @return $this
+     */
+    public function withColumnTitle($columnTitle)
+    {
+        $this->columnTitle = $columnTitle;
+        return $this;
+    }
+
+    /**
      * Set swimlaneId
      *
      * @access public
@@ -66,6 +81,19 @@ class BoardTaskFormatter extends BaseFormatter implements FormatterInterface
     public function withSwimlaneId($swimlaneId)
     {
         $this->swimlaneId = $swimlaneId;
+        return $this;
+    }
+
+    /**
+     * Set swimlaneTitle
+     *
+     * @access public
+     * @param  integer $swimlaneTitle
+     * @return $this
+     */
+    public function withSwimlaneTitle($swimlaneTitle)
+    {
+        $this->swimlaneTitle = $swimlaneTitle;
         return $this;
     }
 
@@ -84,6 +112,7 @@ class BoardTaskFormatter extends BaseFormatter implements FormatterInterface
             $task['is_draggable'] = $this->helper->projectRole->isDraggable($task);
         }
 
+
         return $tasks;
     }
 
@@ -96,6 +125,8 @@ class BoardTaskFormatter extends BaseFormatter implements FormatterInterface
      */
     protected function filterTasks(array $task)
     {
-        return $task['column_id'] == $this->columnId && $task['swimlane_id'] == $this->swimlaneId;
+        if ($task['column_name'] == $this->columnTitle && $task['swimlane_name'] == $this->swimlaneTitle) {
+            return $task['column_id'];
+        }
     }
 }

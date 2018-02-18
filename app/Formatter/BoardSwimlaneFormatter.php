@@ -81,9 +81,8 @@ class BoardSwimlaneFormatter extends BaseFormatter implements FormatterInterface
         $nb_columns = count($this->columns);
 
         foreach ($this->swimlanes as &$swimlane) {
-            $swimlane['id'] = (int) $swimlane['id'];
             $swimlane['columns'] = $this->boardColumnFormatter
-                ->withSwimlaneId($swimlane['id'])
+                ->withSwimlaneTitle($swimlane['name'])
                 ->withColumns($this->columns)
                 ->withTasks($this->tasks)
                 ->withTags($this->tags)
